@@ -1,6 +1,8 @@
-use std::collections::{HashMap, HashSet};
+use std::collections::HashMap;
 
 fn part1(input: &str) -> usize {
+    let mut total = 0;
+
     let mut ranges: Vec<&str> = Vec::new();
     let mut products: Vec<&str> = Vec::new();
     let mut is_prod = false;
@@ -17,22 +19,21 @@ fn part1(input: &str) -> usize {
         }
     }
 
-    let mut set: HashSet<i128> = HashSet::new();
-
     for p in products {
         let prod: i128 = p.parse().unwrap();
-
         for r in &ranges {
             let (s, e) = r.split_once("-").unwrap();
             let s: i128 = s.parse().unwrap();
             let e: i128 = e.parse().unwrap();
 
-            if (s..=e).contains(&prod) {
-                set.insert(prod);
+            //if (s..=e).contains(&prod) {
+            if s <= prod && prod <= e {
+                total += 1;
+                break;
             }
         }
     }
-    set.len()
+    total
 }
 
 fn part2(input: &str) -> i128 {
