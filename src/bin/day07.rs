@@ -54,16 +54,15 @@ fn part2(input: &str) -> u128 {
     }
 
     //memoization
-    let mut memo: HashMap<(i32, i32, char), u128> = HashMap::new();
-    count_paths(&grid, starting.0, starting.1, 's', &mut memo)
+    let mut memo: HashMap<(i32, i32), u128> = HashMap::new();
+    count_paths(&grid, starting.0, starting.1, &mut memo)
 }
 
 fn count_paths(
     grid: &Vec<Vec<char>>,
     row: i32,
     col: i32,
-    dir: char,
-    memo: &mut HashMap<(i32, i32, char), u128>,
+    memo: &mut HashMap<(i32, i32), u128>,
 ) -> u128 {
     // out of bounds
     if col < 0 || col > grid[0].len() as i32 - 1 {
@@ -74,8 +73,8 @@ fn count_paths(
         return 1;
     }
 
-    if memo.contains_key(&(row, col, dir)) {
-        return memo[&(row, col, dir)];
+    if memo.contains_key(&(row, col)) {
+        return memo[&(row, col)];
     }
 
     // move down until hitting bottom or a '^'
@@ -88,10 +87,10 @@ fn count_paths(
         }
     }
     // count paths left + right
-    let result = count_paths(grid, cur_pos.0 + 1, col - 1, 'l', memo)
-        + count_paths(grid, cur_pos.0 + 1, col + 1, 'r', memo);
+    let result = count_paths(grid, cur_pos.0 + 1, col - 1, memo)
+        + count_paths(grid, cur_pos.0 + 1, col + 1, memo);
 
-    memo.insert((row, col, dir), result);
+    memo.insert((row, col), result);
 
     result
 }
