@@ -124,7 +124,6 @@ fn part2(input: &str) -> u128 {
     let mut circuits: HashMap<i32, i32> = HashMap::new();
     let mut circuit_idx = 0;
     let dist = dist.into_sorted_vec();
-    //dbg!(&dist);
     let mut total: u128 = 0;
     for d in dist {
         let p1 = circuits.get(&d.1).copied();
